@@ -32,6 +32,7 @@ vocab = set(word_l)  # this will be your new vocabulary
 print(f"The first ten words in the text are: \n{word_l[0:10]}")
 print(f"There are {len(vocab)} unique words in the vocabulary.")
 
+
 # A function that calculates the number of times " \
 # a word appear in the corpus.
 def get_count(word_l):
@@ -74,7 +75,6 @@ print(f"Length of probs is {len(probs)}")
 print(f"P('thee') is {probs['thee']:.4f}")
 
 
-# GRADED FUNCTION: get_probs
 def get_probs(word_count_dict):
     '''
     Input:
@@ -83,18 +83,13 @@ def get_probs(word_count_dict):
         probs: A dictionary where keys are the words and the values are the probability that a word will occur.
     '''
     probs = {}  # return this variable correctly
-
-    ### START CODE HERE ###
     for k, v in word_count_dict.items():
         prob = {}
         prob[k] = v / sum(word_count_dict.values())
         probs.update(prob)
 
-    ### END CODE HERE ###
     return probs
 
-
-# DO NOT MODIFY THIS CELL
 probs = get_probs(word_count_dict)
 print(f"Length of probs is {len(probs)}")
 print(f"P('thee') is {probs['thee']:.4f}")
@@ -260,7 +255,6 @@ def edit_two_letters(word, allow_switches=True):
 
     return edit_two_set
 
-
 tmp_edit_two_set = edit_two_letters("a")
 tmp_edit_two_l = sorted(list(tmp_edit_two_set))
 print(f"Number of strings with edit distance of two: {len(tmp_edit_two_l)}")
@@ -306,7 +300,6 @@ def get_corrections(word, probs, vocab, n=2, verbose=False):
 
     return n_best
 
-
 # Test implementation
 my_word = 'dys'
 tmp_corrections = get_corrections(my_word, probs, vocab, 2, verbose=True)  # keep verbose=True
@@ -315,6 +308,7 @@ for i, word_prob in enumerate(tmp_corrections):
 
 # CODE REVIEW COMMENT: using "tmp_corrections" insteads of "cors". "cors" is not defined
 print(f"data type of corrections {type(tmp_corrections)}")
+
 
 def min_edit_distance(source, target, ins_cost=1, del_cost=1, rep_cost=2):
     '''
