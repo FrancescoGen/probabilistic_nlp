@@ -189,6 +189,9 @@ expected_output = ['aat', 'bat', 'cat', 'dat', 'eat', 'fat', 'gat', 'hat', 'iat'
 print(insert_l == expected_output)
 
 
+# UNQ_C8 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
+# UNIT TEST COMMENT: Candidate for Table Driven Tests
+# GRADED FUNCTION: edit_one_letter
 def edit_one_letter(word, allow_switches=True):
     """
     Input:
@@ -201,17 +204,16 @@ def edit_one_letter(word, allow_switches=True):
 
     edit_one_set = set()
 
-    deletes = delete_letter(word)
-    replaces = replace_letter(word)
-    inserts = insert_letter(word)
+    ### START CODE HERE ###
+    all_edits = delete_letter(word) + replace_letter(word) + insert_letter(word)
     if allow_switches:
-        switches = switch_letter(word)
-
-    temp = deletes + replaces + inserts + switches
-
-    edit_one_set.update(temp)
+        all_edits = all_edits + switch_letter(word)
+    for edit in all_edits:
+        edit_one_set.add(edit)
+    ### END CODE HERE ###
 
     return edit_one_set
+
 
 tmp_word = "at"
 tmp_edit_one_set = edit_one_letter(tmp_word)
@@ -223,6 +225,9 @@ print(f"The type of the returned object should be a set {type(tmp_edit_one_set)}
 print(f"Number of outputs from edit_one_letter('at') is {len(edit_one_letter('at'))}")
 
 
+# UNQ_C9 (UNIQUE CELL IDENTIFIER, DO NOT EDIT)
+# UNIT TEST COMMENT: Candidate for Table Driven Tests
+# GRADED FUNCTION: edit_two_letters
 def edit_two_letters(word, allow_switches=True):
     '''
     Input:
@@ -233,27 +238,17 @@ def edit_two_letters(word, allow_switches=True):
 
     edit_two_set = set()
 
-    deletes = delete_letter(word)
-    replaces = replace_letter(word)
-    inserts = insert_letter(word)
-    if allow_switches:
-        switches = switch_letter(word)
+    ### START CODE HERE ###
+    one_edits = edit_one_letter(word, allow_switches)
+    for edit in one_edits:
+        edit_of_edit = edit_one_letter(edit, allow_switches)
+        if edit_of_edit is not None:
+            edit_two_set = edit_two_set.union(edit_of_edit)
 
-    temp = deletes + replaces + inserts + switches
-
-    edit_two_set.update(temp)
-
-    temp2 = []
-    for word in edit_two_set:
-        deletes = delete_letter(word)
-        replaces = replace_letter(word)
-        inserts = insert_letter(word)
-        switches = switch_letter(word)
-        temp2.extend(deletes + replaces + inserts + switches)
-
-    edit_two_set.update(temp2)
+    ### END CODE HERE ###
 
     return edit_two_set
+
 
 tmp_edit_two_set = edit_two_letters("a")
 tmp_edit_two_l = sorted(list(tmp_edit_two_set))
@@ -371,3 +366,42 @@ idx = list('#' + source)
 cols = list('#' + target)
 df = pd.DataFrame(matrix, index=idx, columns=cols)
 print(df)
+
+#DO NOT MODIFY THIS CELL
+# testing your implementation
+source =  'play'
+target = 'stay'
+matrix, min_edits = min_edit_distance(source, target)
+print("minimum edits: ",min_edits, "\n")
+idx = list('#' + source)
+cols = list('#' + target)
+df = pd.DataFrame(matrix, index=idx, columns= cols)
+print(df)
+
+
+#DO NOT MODIFY THIS CELL
+# testing your implementation
+source =  'eer'
+target = 'near'
+matrix, min_edits = min_edit_distance(source, target)
+print("minimum edits: ",min_edits, "\n")
+idx = list(source)
+idx.insert(0, '#')
+cols = list(target)
+cols.insert(0, '#')
+df = pd.DataFrame(matrix, index=idx, columns= cols)
+print(df)
+
+source = "eer"
+targets = edit_one_letter(source,
+                          allow_switches=False)  # disable switches since min_edit_distance does not include them
+for t in targets:
+    _, min_edits = min_edit_distance(source, t, 1, 1, 1)  # set ins, del, sub costs all to one
+    if min_edits != 1: print(source, t, min_edits)
+
+source = "eer"
+targets = edit_two_letters(source,
+                           allow_switches=False)  # disable switches since min_edit_distance does not include them
+for t in targets:
+    _, min_edits = min_edit_distance(source, t, 1, 1, 1)  # set ins, del, sub costs all to one
+    if min_edits != 2 and min_edits != 1: print(source, t, min_edits)
