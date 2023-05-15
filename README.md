@@ -1,2 +1,2 @@
 # Probabilistic NLP
-NLP with Probabilistic Models
+Solved tasks from the DeepLearning.AI's course "NLP with Probabilistic Models".
