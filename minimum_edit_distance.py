@@ -287,7 +287,7 @@ def get_corrections(word, probs, vocab, n=2, verbose=False):
         if el in probs:
             prob_suggestions2.append((el, probs[el]))
 
-    n_best = sorted(prob_suggestions2, key=lambda x: x[1], reverse=True)
+    n_best = sorted(prob_suggestions2[:n], key=lambda x: x[1], reverse=True)
 
     suggestions = set(el[0] for el in prob_suggestions2)
 
